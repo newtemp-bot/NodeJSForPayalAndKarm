@@ -1,0 +1,14 @@
+{
+  "name": "fibonaki",
+  "version": "1.0.1",
+  "description": "This is the text npm package by Ashok Prajapati.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "fibonaki"
+  ],
+  "author": "Ashok Prajapati (BascomBridge)",
+  "license": "ISC"
+}
