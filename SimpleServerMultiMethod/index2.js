@@ -1,8 +1,10 @@
 // Importing the http module
+debugger;
 const http = require("http")
 
 // Creating server 
 const server = http.createServer((req, res) => {
+    debugger;
     // Sending the response
     res.write("This is the response from the server")
     res.end();
