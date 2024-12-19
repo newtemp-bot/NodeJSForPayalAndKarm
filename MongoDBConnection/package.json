@@ -1,0 +1,21 @@
+{
+  "name": "mongodbconnection",
+  "version": "1.0.0",
+  "description": "This package is for connect MongoDB to NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "MongoDB",
+    "Database",
+    "NodeJS"
+  ],
+  "author": "Ashok Prajapati",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^6.12.0",
+    "mongoose": "^8.9.1"
+  }
+}
