@@ -17,7 +17,7 @@ const studentSchema = new mongoose.Schema({
         type:Date,
         required:true
     }
-},{timestamps:true});
+},{timestamps:true,versionKey: false});
 
 const Students = new mongoose.model("students", studentSchema);
 
