@@ -1,0 +1,225 @@
+[{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f01"
+  },
+  "courseName": "Java Programming",
+  "startDate": {
+    "$date": "2024-11-01T00:00:00.000Z"
+  },
+  "duration": 45,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e2e",
+    "67664ff0afb6fe3e939d7e30",
+    "67664ff0afb6fe3e939d7e34"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f02"
+  },
+  "courseName": "Web Development",
+  "startDate": {
+    "$date": "2024-10-15T00:00:00.000Z"
+  },
+  "duration": 60,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e31",
+    "67664ff0afb6fe3e939d7e33",
+    "67664ff0afb6fe3e939d7e3b"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f03"
+  },
+  "courseName": "Data Science",
+  "startDate": {
+    "$date": "2024-09-20T00:00:00.000Z"
+  },
+  "duration": 90,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e35",
+    "67664ff0afb6fe3e939d7e3c",
+    "67664ff0afb6fe3e939d7e39"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f04"
+  },
+  "courseName": "Python Programming",
+  "startDate": {
+    "$date": "2024-11-10T00:00:00.000Z"
+  },
+  "duration": 30,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e37",
+    "67664ff0afb6fe3e939d7e38",
+    "67664ff0afb6fe3e939d7e2f"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f05"
+  },
+  "courseName": "Machine Learning",
+  "startDate": {
+    "$date": "2024-12-05T00:00:00.000Z"
+  },
+  "duration": 75,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e30",
+    "67664ff0afb6fe3e939d7e34",
+    "67664ff0afb6fe3e939d7e36"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f06"
+  },
+  "courseName": "Cyber Security",
+  "startDate": {
+    "$date": "2024-11-20T00:00:00.000Z"
+  },
+  "duration": 40,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e33",
+    "67664ff0afb6fe3e939d7e32",
+    "67664ff0afb6fe3e939d7e3a"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f07"
+  },
+  "courseName": "Database Management",
+  "startDate": {
+    "$date": "2024-09-10T00:00:00.000Z"
+  },
+  "duration": 50,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e2e",
+    "67664ff0afb6fe3e939d7e39",
+    "67664ff0afb6fe3e939d7e35"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f08"
+  },
+  "courseName": "C++ Programming",
+  "startDate": {
+    "$date": "2024-11-25T00:00:00.000Z"
+  },
+  "duration": 45,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e34",
+    "67664ff0afb6fe3e939d7e37",
+    "67664ff0afb6fe3e939d7e32"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f09"
+  },
+  "courseName": "Artificial Intelligence",
+  "startDate": {
+    "$date": "2024-10-25T00:00:00.000Z"
+  },
+  "duration": 90,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e3a",
+    "67664ff0afb6fe3e939d7e38",
+    "67664ff0afb6fe3e939d7e2f"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f10"
+  },
+  "courseName": "Cloud Computing",
+  "startDate": {
+    "$date": "2024-12-01T00:00:00.000Z"
+  },
+  "duration": 60,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e30",
+    "67664ff0afb6fe3e939d7e3b",
+    "67664ff0afb6fe3e939d7e39"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f11"
+  },
+  "courseName": "Big Data",
+  "startDate": {
+    "$date": "2024-09-05T00:00:00.000Z"
+  },
+  "duration": 80,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e2e",
+    "67664ff0afb6fe3e939d7e31",
+    "67664ff0afb6fe3e939d7e3c"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f12"
+  },
+  "courseName": "Networking Basics",
+  "startDate": {
+    "$date": "2024-08-15T00:00:00.000Z"
+  },
+  "duration": 30,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e34",
+    "67664ff0afb6fe3e939d7e37",
+    "67664ff0afb6fe3e939d7e36"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f13"
+  },
+  "courseName": "Blockchain Technology",
+  "startDate": {
+    "$date": "2024-11-15T00:00:00.000Z"
+  },
+  "duration": 45,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e2f",
+    "67664ff0afb6fe3e939d7e35",
+    "67664ff0afb6fe3e939d7e33"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f14"
+  },
+  "courseName": "IoT Fundamentals",
+  "startDate": {
+    "$date": "2024-10-01T00:00:00.000Z"
+  },
+  "duration": 60,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e32",
+    "67664ff0afb6fe3e939d7e3b",
+    "67664ff0afb6fe3e939d7e31"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67665001afb6fe3e939d7f15"
+  },
+  "courseName": "Game Development",
+  "startDate": {
+    "$date": "2024-12-10T00:00:00.000Z"
+  },
+  "duration": 90,
+  "studentsEnrolled": [
+    "67664ff0afb6fe3e939d7e30",
+    "67664ff0afb6fe3e939d7e37",
+    "67664ff0afb6fe3e939d7e38"
+  ]
+}]
