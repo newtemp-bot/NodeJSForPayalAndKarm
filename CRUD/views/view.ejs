@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Students</title>
+        <link rel="stylesheet" href="/styles.css" />
+    </head>
+    <body>
+        <div>
+            <% var student = data[0]; %>
+            <div>
+                <h2>Student Details</h2>
+                <p><strong>Name:</strong> <%= student.name %></p>
+                <p><strong>Date of Birth:</strong> <%= new Date(student.dob).toLocaleDateString() %></p>
+                <h3>Enrolled Courses</h3>
+                <ul>
+                    <%if(student.enrolledCourses.length != 0 ){ student.enrolledCourses.forEach(function(course) { %>
+                        <li>
+                            <p><strong>Course Name:</strong> <%= course.courseName %></p>
+                            <p><strong>Start Date:</strong> <%= new Date(course.startDate).toLocaleDateString() %></p>
+                            <p><strong>Duration:</strong> <%= course.duration %> days</p>
+                        </li>
+                    <% }); } else {%>
+                        <p>No Course Enrolled..</p>
+                    <%} %>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <a href="/students">Back</a>
+        </div>
+    </body>
+</html>

@@ -22,7 +22,7 @@
                 <td><%= student.name %></td>
                 <td><%= new Date(student.dob).toLocaleDateString() %></td>
                 <td>
-                    <a href="#" class="btn">View</a>
+                    <a href="/view/<%= student._id %>" class="btn">View</a>
                 </td>
                 </tr>
                 <% }); %>
