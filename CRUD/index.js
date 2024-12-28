@@ -1,16 +1,31 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const fs = require("fs");
+const path = require("path");
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Logger setup
+const logFilePath = path.join(__dirname, 'server.log');
+const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
+
+function log(message) {
+    const timestamp = new Date().toISOString();
+    logStream.write(`[${timestamp}] ${message}\n`);
+}
+
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views"); // Set the views directory
 
 // Middleware
+app.use((req, res, next) => {
+    log(`${req.method} ${req.url}`);
+    next();
+});
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public")); // Serve static files from the 'public' directory
@@ -18,8 +33,8 @@ app.use(express.static("public")); // Serve static files from the 'public' direc
 // MongoDB connection
 mongoose
     .connect(process.env.MONGODB_URI)
-    .then(() => console.log("Connected to MongoDB"))
-    .catch((err) => console.error("Could not connect to MongoDB", err));
+    .then(() => log("Connected to MongoDB"))
+    .catch((err) => log(`Could not connect to MongoDB: ${err.message}`));
 
 // Student schema and model
 const studentSchema = new mongoose.Schema(
@@ -35,6 +50,30 @@ const studentSchema = new mongoose.Schema(
     },
     { timestamps: true, versionKey: false }
 );
+const courseSchema = new mongoose.Schema(
+    {
+        courseName: {
+            type: String,
+            required: true,
+        },
+        startDate: {
+            type: Date,
+            required: true,
+        },
+        duration: {
+            type: Number,
+            required: true,
+        },
+        studentsEnrolled: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "students",
+            },
+        ],
+    },
+);
+
+const Course = mongoose.model("courses", courseSchema);
 
 const Student = mongoose.model("students", studentSchema);
 
@@ -48,12 +87,22 @@ app.get("/students", async (req, res) => {
         const students = await Student.find();
         res.render("list", { data: students });
     } catch (err) {
+        log(`Server Error: ${err.message}`);
+        res.status(500).send("Server Error");
+    }
+});
+
+app.get("/students/new", async (req, res) => {
+    try {
+        const courses = await Course.find({ "startDate": { "$gt": new Date() } });
+        res.render("add", { data: courses });
+    } catch (err) {
+        log(`Server Error: ${err.message}`);
         res.status(500).send("Server Error");
     }
 });
 
 app.get("/view/:id", async (req, res) => {
-    console.log(req.params.id);
     const studentId = req.params.id;
     const pipeline = [
         {
@@ -111,9 +160,9 @@ app.get("/view/:id", async (req, res) => {
 
     try {
         const students = await Student.aggregate(pipeline);
-        console.log(students);
         res.render("view", { data: students });
     } catch (err) {
+        log(`Server Error: ${err.message}`);
         res.status(500).send("Server Error");
     }
 });
@@ -124,6 +173,7 @@ app.get("/api/students", async (req, res) => {
         const students = await Student.find();
         res.json(students);
     } catch (err) {
+        log(`Server Error: ${err.message}`);
         res.status(500).send("Server Error");
     }
 });
@@ -131,5 +181,5 @@ app.get("/api/students", async (req, res) => {
 // ...existing code...
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    log(`Server is running on http://localhost:${port}`);
 });

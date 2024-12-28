@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Students</title>
-        <link rel="stylesheet" href="/styles.css" />
-    </head>
-    <body>
-        <div>
-            <% var student = data[0]; %>
-            <div>
-                <h2>Student Details</h2>
-                <p><strong>Name:</strong> <%= student.name %></p>
-                <p><strong>Date of Birth:</strong> <%= new Date(student.dob).toLocaleDateString() %></p>
-                <h3>Enrolled Courses</h3>
-                <ul>
-                    <%if(student.enrolledCourses.length != 0 ){ student.enrolledCourses.forEach(function(course) { %>
-                        <li>
-                            <p><strong>Course Name:</strong> <%= course.courseName %></p>
-                            <p><strong>Start Date:</strong> <%= new Date(course.startDate).toLocaleDateString() %></p>
-                            <p><strong>Duration:</strong> <%= course.duration %> days</p>
-                        </li>
-                    <% }); } else {%>
-                        <p>No Course Enrolled..</p>
-                    <%} %>
-                </ul>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Students</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="/">Home</a> &gt; <a href="/students">Students</a> &gt; View Student
+        </nav>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date of Birth</th>
+                            <th>Enrolled Courses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% data.forEach(function(student) { %>
+                        <tr>
+                            <td><%= student.name %></td>
+                            <td><%= new Date(student.dob).toLocaleDateString() %></td>
+                            <td>
+                                <ul>
+                                    <% student.enrolledCourses.forEach(function(course) { %>
+                                    <li><%= course.courseName %> (Start Date: <%= new Date(course.startDate).toLocaleDateString() %>, Duration: <%= course.duration %> hours)</li>
+                                    <% }); %>
+                                </ul>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div>
-            <a href="/students">Back</a>
-        </div>
-    </body>
+    </div>
+</body>
 </html>
