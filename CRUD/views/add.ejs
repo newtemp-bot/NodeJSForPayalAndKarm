@@ -1,58 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Student</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        <nav class="breadcrumb">
-            <a href="/">Home</a> &gt; <a href="/students">Students</a> &gt; Add Student
-        </nav>
-        <div class="row">
-            <div class="col-12">
-                <h1>Add Student</h1>
-                <form action="/students/add" method="POST">
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="date">Date of Birth:</label>
-                        <input type="date" id="date" name="date" class="form-control" required onchange="validateAge()">
-                    </div>
-                    <script>
-                        function validateAge() {
-                            const input = document.getElementById('date').value;
-                            const dob = new Date(input);
-                            const today = new Date();
-                            const age = today.getFullYear() - dob.getFullYear();
-                            const monthDiff = today.getMonth() - dob.getMonth();
-                            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-                                age--;
-                            }
-                            if (age < 12) {
-                                alert('Student must be at least 12 years old.');
-                                document.getElementById('date').value = '';
-                            }
-                        }
-                    </script>
-                    <div class="form-group">
-                        <label for="course">Course:</label>
-                        <select id="course" name="course" class="form-control" required>
-                            <% data.forEach(function(course) { %>
-                            <option value="<%= course._id %>"><%= course.courseName %> - Start Date: <%= course.startDate.toDateString() %>, Duration: <%= course.duration %> hours</option>
-                            <% }); %>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Add Student</button>
-                    </div>
-                </form>
+<%- include('partials/header', { title: 'Add Student' }) %>
+<nav class="breadcrumb">
+    <a href="/">Home</a> &gt; <a href="/students">Students</a> &gt; Add Student
+</nav>
+<div class="row">
+    <div class="col-12">
+        <h1>Add Student</h1>
+        <form action="/students/add" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" class="form-control" required>
             </div>
-        </div>
+            <div class="form-group">
+                <label for="date">Date of Birth:</label>
+                <input type="date" id="date" name="dob" class="form-control" required onchange="validateAge()">
+            </div>
+            <script>
+                function validateAge() {
+                    const input = document.getElementById('date').value;
+                    const dob = new Date(input);
+                    const today = new Date();
+                    const age = today.getFullYear() - dob.getFullYear();
+                    const monthDiff = today.getMonth() - dob.getMonth();
+                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                        age--;
+                    }
+                    if (age < 12) {
+                        alert('Student must be at least 12 years old.');
+                        document.getElementById('date').value = '';
+                    }
+                }
+            </script>
+            <div class="form-group">
+                <label for="course">Course:</label>
+                <select id="course" name="courses" class="form-control" required multiple>
+                    <% data.forEach(function(course) { %>
+                    <option value="<%= course._id %>"><%= course.courseName %> - Start Date: <%= course.startDate.toDateString() %>, Duration: <%= course.duration %> hours</option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add Student</button>
+            </div>
+        </form>
     </div>
-</body>
-</html>
+</div>
+<%- include('partials/footer') %>

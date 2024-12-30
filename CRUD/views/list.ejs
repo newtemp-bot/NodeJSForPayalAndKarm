@@ -1,57 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Students</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
-    </head>
-    <body>
-        <div class="container">
-            <nav class="breadcrumb">
-                <a href="/">Home</a> &gt; Students List
-            </nav>
-            <div class="row">
-                <div class="col-12">
-                    <h1>Students List</h1>
-                    <a href="/students/new" class="btn btn-primary mb-3">Add New Student</a>
-                    <table id="studentsTable" class="table table-striped mb-3">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Date of Birth</th>
-                                <th class="no-sort">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% data.forEach(function(student) { %>
-                            <tr>
-                                <td><%= student.name %></td>
-                                <td><%= new Date(student.dob).toLocaleDateString() %></td>
-                                <td>
-                                    <a href="/view/<%= student._id %>" class="btn btn-info btn-sm">View</a>
-                                    <a href="/students/edit/<%= student._id %>" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="/students/delete/<%= student._id %>" class="btn btn-danger btn-sm">Delete</a>
-                                </td>
-                            </tr>
-                            <% }); %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('#studentsTable').DataTable({
-                    "columnDefs": [
-                        { "orderable": false, "targets": "no-sort" }
-                    ]
-                });
-            });
-        </script>
-    </body>
-</html>
+<%- include('partials/header', { title: 'Students List' }) %>
+<nav class="breadcrumb">
+    <a href="/">Home</a> &gt; Students List
+</nav>
+<div class="row">
+    <div class="col-12">
+        <h1>Students List</h1>
+        <a href="/students/new" class="btn btn-primary mb-3">Add New Student</a>
+        <table id="studentsTable" class="table table-striped mb-3">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date of Birth</th>
+                    <th class="no-sort">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach(function(student) { %>
+                <tr>
+                    <td><%= student.name %></td>
+                    <td><%= new Date(student.dob).toLocaleDateString() %></td>
+                    <td>
+                        <a href="/view/<%= student._id %>" class="btn btn-info btn-sm">View</a>
+                        <a href="/students/edit/<%= student._id %>" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="/students/delete/<%= student._id %>" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+<%- include('partials/footer') %>

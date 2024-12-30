@@ -10,8 +10,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Logger setup
-const logFilePath = path.join(__dirname, 'server.log');
-const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
+const logFilePath = path.join(__dirname, "server.log");
+const logStream = fs.createWriteStream(logFilePath, { flags: "a" });
 
 function log(message) {
     const timestamp = new Date().toISOString();
@@ -50,28 +50,26 @@ const studentSchema = new mongoose.Schema(
     },
     { timestamps: true, versionKey: false }
 );
-const courseSchema = new mongoose.Schema(
-    {
-        courseName: {
-            type: String,
-            required: true,
-        },
-        startDate: {
-            type: Date,
-            required: true,
-        },
-        duration: {
-            type: Number,
-            required: true,
-        },
-        studentsEnrolled: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "students",
-            },
-        ],
+const courseSchema = new mongoose.Schema({
+    courseName: {
+        type: String,
+        required: true,
     },
-);
+    startDate: {
+        type: Date,
+        required: true,
+    },
+    duration: {
+        type: Number,
+        required: true,
+    },
+    studentsEnrolled: [
+        {
+            type: String,
+            ref: "students",
+        },
+    ],
+});
 
 const Course = mongoose.model("courses", courseSchema);
 
@@ -94,8 +92,25 @@ app.get("/students", async (req, res) => {
 
 app.get("/students/new", async (req, res) => {
     try {
-        const courses = await Course.find({ "startDate": { "$gt": new Date() } });
+        const courses = await Course.find({ startDate: { $gt: new Date() } });
         res.render("add", { data: courses });
+    } catch (err) {
+        log(`Server Error: ${err.message}`);
+        res.status(500).send("Server Error");
+    }
+});
+app.post("/students/add", async (req, res) => {
+    const { name, dob, courses } = req.body;
+
+    try {
+        const newStudent = new Student({ name, dob });
+        const savedStudent = await newStudent.save();
+        let studentID =  savedStudent._id.toString();
+        await Course.updateMany(
+            { _id: { $in: courses } },
+            { $addToSet: { studentsEnrolled: studentID } }
+        );
+        res.redirect("/students");
     } catch (err) {
         log(`Server Error: ${err.message}`);
         res.status(500).send("Server Error");

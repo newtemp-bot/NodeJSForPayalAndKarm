@@ -136,3 +136,16 @@ tr:hover {
         font-size: 16px;
     }
 }
+.form-check {
+    margin-bottom: 10px;
+}
+.form-check-input {
+    margin-right: 10px;
+}
+#course {
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
