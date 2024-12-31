@@ -1,7 +1,5 @@
 <%- include('partials/header', { title: 'Students List' }) %>
-<nav class="breadcrumb">
-    <a href="/">Home</a> &gt; Students List
-</nav>
+<nav class="breadcrumb"><a href="/">Home</a> &gt; Students List</nav>
 <div class="row">
     <div class="col-12">
         <h1>Students List</h1>
@@ -20,9 +18,22 @@
                     <td><%= student.name %></td>
                     <td><%= new Date(student.dob).toLocaleDateString() %></td>
                     <td>
-                        <a href="/view/<%= student._id %>" class="btn btn-info btn-sm">View</a>
-                        <a href="/students/edit/<%= student._id %>" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="/students/delete/<%= student._id %>" class="btn btn-danger btn-sm">Delete</a>
+                        <a
+                            href="/students/view/<%= student._id %>"
+                            class="btn btn-info btn-sm"
+                            >View</a
+                        >
+                        <a
+                            href="/students/edit/<%= student._id %>"
+                            class="btn btn-warning btn-sm"
+                            >Edit</a
+                        >
+                        <button
+                            class="btn btn-danger btn-sm"
+                            onclick="confirmDelete('<%= student._id %>')"
+                        >
+                            Delete
+                        </button>
                     </td>
                 </tr>
                 <% }); %>

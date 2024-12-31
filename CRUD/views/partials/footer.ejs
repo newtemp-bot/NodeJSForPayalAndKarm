@@ -4,6 +4,7 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function() {
             $('#studentsTable').DataTable({
@@ -15,6 +16,57 @@
                 placeholder: "Select courses"
             });
         });
+
+        function showConfirmationDialog(message, callback) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: message,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, proceed!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    callback();
+                }
+            });
+        }
+
+        function showSuccessMessage(message) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: message,
+                timer: 3000,
+                showConfirmButton: false
+            });
+        }
+
+        function showErrorMessage(message) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: message,
+                timer: 3000,
+                showConfirmButton: false
+            });
+        }
+
+        <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+            showSuccessMessage('<%= successMessage %>');
+            <% successMessage = null; %>
+        <% } %>
+        <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            showErrorMessage('<%= errorMessage %>');
+            <% errorMessage = null; %>
+        <% } %>
+
+        function confirmDelete(studentId) {
+            showConfirmationDialog("Do you want to delete this student?", function() {
+                window.location.href = `/students/delete/${studentId}`;
+            });
+        }
     </script>
 </body>
 </html>

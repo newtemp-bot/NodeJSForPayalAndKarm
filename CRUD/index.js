@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
+const session = require("express-session");
 
 dotenv.config();
 
@@ -29,6 +30,11 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public")); // Serve static files from the 'public' directory
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: true
+}));
 
 // MongoDB connection
 mongoose
@@ -83,7 +89,11 @@ app.get("/", (req, res) => {
 app.get("/students", async (req, res) => {
     try {
         const students = await Student.find();
-        res.render("list", { data: students });
+        const successMessage = req.session.successMessage;
+        const errorMessage = req.session.errorMessage;
+        req.session.successMessage = null;
+        req.session.errorMessage = null;
+        res.render("list", { data: students, successMessage, errorMessage });
     } catch (err) {
         log(`Server Error: ${err.message}`);
         res.status(500).send("Server Error");
@@ -93,7 +103,11 @@ app.get("/students", async (req, res) => {
 app.get("/students/new", async (req, res) => {
     try {
         const courses = await Course.find({ startDate: { $gt: new Date() } });
-        res.render("add", { data: courses });
+        const successMessage = req.session.successMessage;
+        const errorMessage = req.session.errorMessage;
+        req.session.successMessage = null;
+        req.session.errorMessage = null;
+        res.render("add", { data: courses, successMessage, errorMessage });
     } catch (err) {
         log(`Server Error: ${err.message}`);
         res.status(500).send("Server Error");
@@ -110,14 +124,16 @@ app.post("/students/add", async (req, res) => {
             { _id: { $in: courses } },
             { $addToSet: { studentsEnrolled: studentID } }
         );
+        req.session.successMessage = "Student added successfully!";
         res.redirect("/students");
     } catch (err) {
         log(`Server Error: ${err.message}`);
-        res.status(500).send("Server Error");
+        req.session.errorMessage = "Failed to add student.";
+        res.redirect("/students");
     }
 });
 
-app.get("/view/:id", async (req, res) => {
+app.get("/students/view/:id", async (req, res) => {
     const studentId = req.params.id;
     const pipeline = [
         {
@@ -175,10 +191,31 @@ app.get("/view/:id", async (req, res) => {
 
     try {
         const students = await Student.aggregate(pipeline);
-        res.render("view", { data: students });
+        const successMessage = req.session.successMessage;
+        const errorMessage = req.session.errorMessage;
+        req.session.successMessage = null;
+        req.session.errorMessage = null;
+        res.render("view", { data: students, successMessage, errorMessage });
     } catch (err) {
         log(`Server Error: ${err.message}`);
         res.status(500).send("Server Error");
+    }
+});
+
+app.get("/students/delete/:id", async (req, res) => {
+    const studentId = req.params.id;
+    try {
+        await Student.findByIdAndDelete(studentId);
+        await Course.updateMany(
+            { studentsEnrolled: studentId },
+            { $pull: { studentsEnrolled: studentId } }
+        );
+        req.session.successMessage = "Student deleted successfully!";
+        res.redirect("/students");
+    } catch (err) {
+        log(`Server Error: ${err.message}`);
+        req.session.errorMessage = "Failed to delete student.";
+        res.redirect("/students");
     }
 });
 
