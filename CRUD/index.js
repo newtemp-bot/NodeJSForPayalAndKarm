@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const path = require("path");
 const session = require("express-session");
+const fs = require("fs");
 const studentRoutes = require("./routes/studentRoutes");
 const connectDB = require("./config/db");
 
