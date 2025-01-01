@@ -1,0 +1,75 @@
+<%- include('partials/header', { title: student ? 'Edit Student' : 'Add Student' }) %>
+<nav class="breadcrumb">
+    <a href="/">Home</a> &gt; <a href="/students">Students</a> &gt; <%= student ? 'Edit Student' : 'Add Student' %>
+</nav>
+<div class="row">
+    <div class="col-12">
+        <h1><%= student ? 'Edit Student' : 'Add Student' %></h1>
+        <form action="/students/<%= student ? 'edit/' + student._id : 'add' %>" method="POST" id="upsertStudentForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" class="form-control" required value="<%= student ? student.name : '' %>">
+            </div>
+            <div class="form-group">
+                <label for="date">Date of Birth:</label>
+                <input type="date" id="date" name="dob" class="form-control" required value="<%= student ? student.dob.toISOString().split('T')[0] : '' %>" onchange="validateAge()">
+            </div>
+            <script>
+                function validateAge() {
+                    const input = document.getElementById('date').value;
+                    const dob = new Date(input);
+                    const today = new Date();
+                    let age = today.getFullYear() - dob.getFullYear();
+                    const monthDiff = today.getMonth() - dob.getMonth();
+                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                        age--;
+                    }
+                    if (age < 12) {
+                        alert('Student must be at least 12 years old.');
+                        document.getElementById('date').value = '';
+                    }
+                }
+            </script>
+            <div class="form-group">
+                <label for="course">Course:</label>
+                <select id="course" name="courses" class="form-control" required multiple>
+                    <% data.forEach(function(course) { %>
+                    <option value="<%= course._id %>" <%= student && student.enrolledCourses && student.enrolledCourses.some(enrolledCourse => enrolledCourse._id.toString() === course._id.toString()) ? 'selected' : '' %>>
+                        <%= course.courseName %> - Start Date: <%= course.startDate.toDateString() %>, Duration: <%= course.duration %> hours
+                    </option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><%= student ? 'Update Student' : 'Add Student' %></button>
+            </div>
+        </form>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script>
+            function showConfirmationDialog(message, onConfirm) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: message,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, proceed!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        onConfirm();
+                    }
+                });
+            }
+
+            document.getElementById('upsertStudentForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const form = this;
+                showConfirmationDialog("Do you want to <%= student ? 'update' : 'add' %> this student?", function() {
+                    form.submit();
+                });
+            });
+        </script>
+    </div>
+</div>
+<%- include('partials/footer') %>

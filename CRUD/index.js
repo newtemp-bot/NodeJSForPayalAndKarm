@@ -107,12 +107,48 @@ app.get("/students/new", async (req, res) => {
         const errorMessage = req.session.errorMessage;
         req.session.successMessage = null;
         req.session.errorMessage = null;
-        res.render("add", { data: courses, successMessage, errorMessage });
+        res.render("upsert", { data: courses, student: null, successMessage, errorMessage });
     } catch (err) {
         log(`Server Error: ${err.message}`);
         res.status(500).send("Server Error");
     }
 });
+
+app.get("/students/edit/:id", async (req, res) => {
+    const studentId = req.params.id;
+    try {
+        const student = await Student.findById(studentId);
+        const courses = await Course.find({ startDate: { $gt: new Date() } });
+        res.render("upsert", { data: courses, student });
+    } catch (err) {
+        log(`Server Error: ${err.message}`);
+        res.status(500).send("Server Error");
+    }
+});
+
+app.post("/students/edit/:id", async (req, res) => {
+    const studentId = req.params.id;
+    const { name, dob, courses } = req.body;
+
+    try {
+        await Student.findByIdAndUpdate(studentId, { name, dob });
+        await Course.updateMany(
+            { studentsEnrolled: studentId },
+            { $pull: { studentsEnrolled: studentId } }
+        );
+        await Course.updateMany(
+            { _id: { $in: courses } },
+            { $addToSet: { studentsEnrolled: studentId } }
+        );
+        req.session.successMessage = "Student updated successfully!";
+        res.redirect("/students");
+    } catch (err) {
+        log(`Server Error: ${err.message}`);
+        req.session.errorMessage = "Failed to update student.";
+        res.redirect("/students");
+    }
+});
+
 app.post("/students/add", async (req, res) => {
     const { name, dob, courses } = req.body;
 
