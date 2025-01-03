@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3>Student Details</h3>
+                <a href="/auth/logout" class="btn btn-danger">Logout</a>
+            </div>
+            <div class="card-body">
+                <% if (data && data.length > 0) { %>
+                    <% const student = data[0]; %>
+                    <p><strong>Name:</strong> <%= student.name %></p>
+                    <p><strong>Date of Birth:</strong> <%= new Date(student.dob).toLocaleDateString() %></p>
+                    <p><strong>Enrollment Number:</strong> <%= student.enrollmentNumber %></p>
+                    <h5>Enrolled Courses:</h5>
+                    <ul class="list-group">
+                        <% student.enrolledCourses.forEach(course => { %>
+                            <li class="list-group-item">
+                                <strong>Course Name:</strong> <%= course.courseName %><br>
+                                <strong>Start Date:</strong> <%= new Date(course.startDate).toLocaleDateString() %><br>
+                                <strong>Duration:</strong> <%= course.duration %> days
+                            </li>
+                        <% }); %>
+                    </ul>
+                <% } else { %>
+                    <p>No student details found.</p>
+                <% } %>
+            </div>
+        </div>
+        <% if (successMessage) { %>
+            <div class="alert alert-success mt-3"><%= successMessage %></div>
+        <% } %>
+        <% if (errorMessage) { %>
+            <div class="alert alert-danger mt-3"><%= errorMessage %></div>
+        <% } %>
+    </div>
+</body>
+</html>

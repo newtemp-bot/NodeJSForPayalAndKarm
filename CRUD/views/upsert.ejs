@@ -1,11 +1,11 @@
 <%- include('partials/header', { title: student ? 'Edit Student' : 'Add Student' }) %>
 <nav class="breadcrumb">
-    <a href="/">Home</a> &gt; <a href="/students">Students</a> &gt; <%= student ? 'Edit Student' : 'Add Student' %>
+    <a href="/admin/students">Students</a> &gt; <%= student ? 'Edit Student' : 'Add Student' %>
 </nav>
 <div class="row">
     <div class="col-12">
         <h1><%= student ? 'Edit Student' : 'Add Student' %></h1>
-        <form action="/students/<%= student ? 'edit/' + student._id : 'add' %>" method="POST" id="upsertStudentForm">
+        <form action="/admin/students/<%= student ? 'edit/' + student._id : 'add' %>" method="POST" id="upsertStudentForm">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" class="form-control" required value="<%= student ? student.name : '' %>">
@@ -30,6 +30,10 @@
                     }
                 }
             </script>
+            <div class="form-group">
+                <label for="enrollmentNumber">Enrollment Number:</label>
+                <input type="text" id="enrollmentNumber" name="enrollmentNumber" class="form-control" required value="<%= student ? student.enrollmentNumber : '' %>">
+            </div>
             <div class="form-group">
                 <label for="course">Course:</label>
                 <select id="course" name="courses" class="form-control" required multiple>

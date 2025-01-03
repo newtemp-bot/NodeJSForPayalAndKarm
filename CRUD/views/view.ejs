@@ -1,6 +1,6 @@
 <%- include('partials/header', { title: 'View Student' }) %>
 <nav class="breadcrumb">
-    <a href="/">Home</a> &gt; <a href="/students">Students</a> &gt; View Student
+    <a href="/admin/students">Students</a> &gt; View Student
 </nav>
 <div class="row">
     <div class="col-12">
@@ -9,6 +9,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Date of Birth</th>
+                    <th>EnrollmentNumber</th>
                     <th>Enrolled Courses</th>
                 </tr>
             </thead>
@@ -17,6 +18,7 @@
                 <tr>
                     <td><%= student.name %></td>
                     <td><%= new Date(student.dob).toLocaleDateString() %></td>
+                    <td><%= student.enrollmentNumber %></td>
                     <td>
                         <ul>
                             <% student.enrolledCourses.forEach(function(course) { %>

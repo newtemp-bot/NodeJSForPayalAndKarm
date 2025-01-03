@@ -4,9 +4,13 @@ const path = require("path");
 const session = require("express-session");
 const fs = require("fs");
 const studentRoutes = require("./routes/studentRoutes");
+const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 const connectDB = require("./config/db");
+const cookieParser = require("cookie-parser");
+const authMiddleware = require("./middleware/auth");
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') }); // Ensure .env file is loaded
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -36,18 +40,19 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+app.use(cookieParser());
 
 // Connect to MongoDB
 connectDB().then(() => log("Connected to MongoDB")).catch((err) => log(`Could not connect to MongoDB: ${err.message}`));
 
 // Routes
+app.use("/admin", adminRoutes);
 app.use("/students", studentRoutes);
+app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+    res.redirect("/students");
 });
-
-// ...existing code...
 
 app.listen(port, () => {
     log(`Server is running on http://localhost:${port}`);

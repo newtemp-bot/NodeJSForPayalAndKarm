@@ -10,6 +10,11 @@ const studentSchema = new mongoose.Schema(
             type: Date,
             required: true,
         },
+        enrollmentNumber: {
+            type: String,
+            required: true,
+            unique: true,
+        },
     },
     { timestamps: true, versionKey: false }
 );
